@@ -1,0 +1,135 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+body{
+    background-color: rgb(15, 15, 15);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+section{
+    height: 350px;
+    width: 460px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    border: 2px solid gray;
+    box-shadow: 0px 0px 12px rgb(121, 121, 121); 
+}
+input{
+    padding: 20px;
+    width: 100%;
+    border-radius: 15px;
+    border: 1px solid hsla(0, 0%, 0%, 0.253);
+    margin-bottom: 20px;
+}
+
+.btn{
+    background-color: hsl(125, 90%, 27%);
+    font-size: 20px;
+    color: white;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+.btn:hover{
+    background-color: hsl(125, 50%, 27%);
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+.btn:active{
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+
+.alert{
+    position: fixed;
+    top: 20px;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.2s ease, fadeOut 0.2s ease 1.5s forwards;
+    z-index: 2;
+    height: 100px;
+    width: auto;
+    min-width: 200px;
+    border: none;
+}
+.alertCorrect{
+    background-color: hsl(120, 34%, 44%);
+}
+
+.alert p{
+    font-size: 1em;
+    color: #fff;
+}
+
+
+p{
+    font-size: medium;
+    font-weight: 400;
+}
+h1{
+    font-size:xx-large;
+}
+a{
+    text-decoration: none;
+    font-size: large;
+}
+img{
+    padding: 20px;
+}
+div{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+    width: 100%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+.active{
+    height: auto;
+}
+
+.imgStatus{
+    width: 70px;
+    height: 70px;
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+}
+
+@media (max-width: 768px){
+    section{
+        width: 400px;
+        height: 350px;
+    }
+}
