@@ -1,3 +1,19 @@
+const section = document.querySelector("section")
+const form = document.querySelector("form")
+const input = document.getElementById("content")
+const btnGerar = document.getElementById("btnQR")
+
+const div = document.createElement("div")
+const alert = document.createElement("div")
+const p = document.createElement("p")
+const imgStatus = document.createElement("img")
+
+alert.appendChild(p)
+alert.appendChild(imgStatus)
+alert.classList.add("alert");
+imgStatus.className = "imgStatus"
+
+
 const Gerador = async(content) => {
     const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?data=${content}&size=300x300`)
     return response.url
@@ -7,6 +23,7 @@ const atualiarAlert = (mensage, img, color) => {
     p.textContent = mensage
     imgStatus.setAttribute("src", `../assets/img/${img}.png`)
     alert.style.backgroundColor = color
+    section.appendChild(alert);
 }
 
 function carregarImagem (src){
@@ -23,19 +40,13 @@ const gerarQrCode = async(content) => {
     return carregarImagem(url)
 }
 
-const section = document.querySelector("section")
-const form = document.querySelector("form")
-const div = document.createElement("div")
-const input = document.getElementById("content")
-const btnGerar = document.getElementById("btnQR")
-const alert = document.createElement("div")
-const p = document.createElement("p")
-const imgStatus = document.createElement("img")
-
-alert.appendChild(p)
-alert.appendChild(imgStatus)
-alert.classList.add("alert");
-imgStatus.className = "imgStatus"
+const resetForm = () => {
+    form.reset()
+    div.remove()
+    section.classList.remove("active")
+    input.value = ""
+    btnGerar.value = "Gerar QR Code"
+}
 
 
 
@@ -46,15 +57,13 @@ form.addEventListener("submit", async(e) => {
 
     if (!content){
         atualiarAlert("Por favor, insira uma URL ou texto para gerar seu QR Code.", "caution",  "hsla(59, 57%, 51%, 0.58)")
-        section.appendChild(alert);
         return
     }
 
     btnGerar.disabled = true;
-
     atualiarAlert("Gerando...", "stopwatch", "hsla(0, 0%, 46%, 0.58)")
     btnGerar.value = "Gerando QR Code.."
-    section.appendChild(alert)
+    
 
 
     try{
@@ -87,11 +96,7 @@ form.addEventListener("submit", async(e) => {
 
 btnGerar.addEventListener("click", () => {
     if (btnGerar.value === "Gerar outro" && section.contains(div)){
-        form.reset()
-        div.remove()
-        section.classList.remove("active")
-        input.value = ""
-        btnGerar.value = "Gerar QR Code"
+        resetForm()
     }
 })
  
