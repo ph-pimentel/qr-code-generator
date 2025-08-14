@@ -95,7 +95,7 @@ div{
     align-items: center;
     justify-content: center;
     height: auto;
-    width: 100%;
+    width: auto;
     border: 1px solid black;
     border-radius: 10px;
 }
@@ -130,6 +130,13 @@ div{
 @media (max-width: 768px){
     section{
         width: 400px;
+        height: 350px;
+    }
+}
+
+@media (max-width: 460px){
+    section{
+        width: 320px;
         height: 350px;
     }
 }

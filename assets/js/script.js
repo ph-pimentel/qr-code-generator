@@ -14,9 +14,10 @@ alert.classList.add("alert");
 imgStatus.className = "imgStatus"
 
 
-const Gerador = async(content) => {
-    const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?data=${content}&size=300x300`)
+const Gerador = async(content, resolucao) => {
+    const response = await fetch(`https://api.qrserver.com/v1/create-qr-code/?data=${content}&size=${resolucao}`)
     return response.url
+
 }
 
 const atualiarAlert = (mensage, img, color) => {
@@ -35,8 +36,8 @@ function carregarImagem (src){
         })
 }
 
-const gerarQrCode = async(content) => {
-    const url = await Gerador(content)
+const gerarQrCode = async(content, tamanhoGrande = "300x300", tamanhoPequeno = "200x200") => {
+    const url = await Gerador(content, window.innerWidth > 460 ? tamanhoGrande : tamanhoPequeno)
     return carregarImagem(url)
 }
 
