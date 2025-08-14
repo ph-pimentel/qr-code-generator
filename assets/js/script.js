@@ -3,6 +3,25 @@ const Gerador = async(content) => {
     return response.url
 }
 
+const atualiarAlert = (mensage, img, color) => {
+    p.textContent = mensage
+    imgStatus.setAttribute("src", `../assets/img/${img}.png`)
+    alert.style.backgroundColor = color
+}
+
+function carregarImagem (src){
+        return new Promise((resolve, reject) => {
+            img.onload = () => resolve(img)
+            img.onerror = () => reject(new Error("Falha ao carregar imagem"))
+            img.setAttribute("src", src)
+        })
+}
+
+const gerarQrCode = async(content) => {
+    const url = await Gerador(content)
+    return carregarImagem(url)
+}
+
 const section = document.querySelector("section")
 const form = document.querySelector("form")
 const div = document.createElement("div")
@@ -28,48 +47,39 @@ form.addEventListener("submit", async(e) => {
     e.preventDefault();
     
     const content = input.value.trim();
-    if (imgStatus.getAttribute("src") === "../assets/img/caution.png"){
-    }
 
     if (!content){
-        p.textContent = "Por favor, insira uma URL ou texto para gerar seu QR Code."
-        imgStatus.setAttribute("src", "../assets/img/caution.png")
-        alert.style.backgroundColor = "hsla(59, 57%, 51%, 0.58)"
+        atualiarAlert("Por favor, insira uma URL ou texto para gerar seu QR Code.", "caution",  "hsla(59, 57%, 51%, 0.58)")
         section.appendChild(alert);
         return
     }
 
     btnGerar.disabled = true;
-    imgStatus.setAttribute("src", "../assets/img/stopwatch.png")
-    alert.style.backgroundColor = "hsla(0, 0%, 46%, 0.58)"
+
+    atualiarAlert("Gerando...", "stopwatch", "hsla(0, 0%, 46%, 0.58)")
     btnGerar.value = "Gerando QR Code.."
-    p.textContent = "Gerando..."
     section.appendChild(alert)
 
+
     try{
-        const result = await Gerador(content)
-        img.setAttribute("src", result)
+        const imgGerada = await gerarQrCode(content)
+        
         img.classList.add("img")
         div.classList.add("div")
 
-        if (!section.contains(div)) section.appendChild(div);
+        if (!section.contains(div)){
+            section.appendChild(div);   
+        }
 
-        img.onload = () => {
-            section.classList.add("active");
-            p.textContent = "QR Code Gerado!";
-            
-            imgStatus.setAttribute("src", "../assets/img/checkmark.png")
-            alert.style.backgroundColor = "hsla(120, 41%, 56%, 0.58)"
+        section.classList.add("active");
 
-            btnGerar.value = "Gerar outro";
-            btnGerar.disabled = false;
-        };
+        atualiarAlert("QR Code Gerado!", "checkmark", "hsla(120, 41%, 56%, 0.58)")
 
-    }
-    catch(error){
-        p.textContent = "Erro ao gerar QR Code!";
-        imgStatus.setAttribute("src", "../assets/img/close.png")
-        alert.style.backgroundColor = "hsla(0, 41%, 56%, 0.58)"
+        btnGerar.value = "Gerar outro";
+        btnGerar.disabled = false;
+
+    }catch(error){
+        atualiarAlert("Erro ao gerar QR Code!", "close", "hsla(0, 41%, 56%, 0.58)" )
         console.error(error);
         btnGerar.disabled = false;
         btnGerar.value = "Gerar QR Code";
@@ -79,7 +89,7 @@ form.addEventListener("submit", async(e) => {
 
 
 btnGerar.addEventListener("click", () => {
-    if (btnGerar.value === "Gerar outro"){
+    if (btnGerar.value === "Gerar outro" && section.contains(div)){
         form.reset()
         div.remove()
         section.classList.remove("active")
