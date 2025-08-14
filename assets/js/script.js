@@ -11,6 +11,7 @@ const atualiarAlert = (mensage, img, color) => {
 
 function carregarImagem (src){
         return new Promise((resolve, reject) => {
+            const img = new Image()
             img.onload = () => resolve(img)
             img.onerror = () => reject(new Error("Falha ao carregar imagem"))
             img.setAttribute("src", src)
@@ -26,19 +27,14 @@ const section = document.querySelector("section")
 const form = document.querySelector("form")
 const div = document.createElement("div")
 const input = document.getElementById("content")
-const img = document.createElement("img")
 const btnGerar = document.getElementById("btnQR")
 const alert = document.createElement("div")
 const p = document.createElement("p")
 const imgStatus = document.createElement("img")
 
-
-div.appendChild(img)
 alert.appendChild(p)
 alert.appendChild(imgStatus)
 alert.classList.add("alert");
-
-
 imgStatus.className = "imgStatus"
 
 
@@ -63,9 +59,11 @@ form.addEventListener("submit", async(e) => {
 
     try{
         const imgGerada = await gerarQrCode(content)
-        
-        img.classList.add("img")
+
+        div.innerHTML = ""
+        imgGerada.classList.add("img")
         div.classList.add("div")
+        div.appendChild(imgGerada)
 
         if (!section.contains(div)){
             section.appendChild(div);   
@@ -74,7 +72,6 @@ form.addEventListener("submit", async(e) => {
         section.classList.add("active");
 
         atualiarAlert("QR Code Gerado!", "checkmark", "hsla(120, 41%, 56%, 0.58)")
-
         btnGerar.value = "Gerar outro";
         btnGerar.disabled = false;
 
